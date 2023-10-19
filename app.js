@@ -87,18 +87,24 @@ app.put('/actors/:id', async (req, res) => {
 
 // Eliminar actor por ID
 app.delete('/actors/:id', async (req, res) => {
-  const actorId = req.params.id;
+  const actorId = req.params.id; // Captura el ID del actor desde la URL
+  console.log(actorId);
   try {
-    const { rows } = await pool.query('DELETE FROM actor WHERE id = $1 RETURNING *', [actorId]);
-    if (rows.length === 0) {
+    const result = await pool.execute(
+      'DELETE FROM actor WHERE actor_id = ?',
+      [actorId]
+    );
+
+    if (result[0].affectedRows === 0) {
       res.status(404).json({ error: 'Actor no encontrado' });
     } else {
-      res.json({ message: 'Actor eliminado con éxito' });
+      res.json({ message: 'Actor eliminado exitosamente' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar actor por ID' });
+    res.status(500).json({ error: 'Error al eliminar el actor | ' + error});
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Servidor Express en ejecución en el puerto ${port}`);
