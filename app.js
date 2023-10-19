@@ -1,25 +1,34 @@
 const express = require('express');
-const { Pool } = require('pg');
+const mysql = require('mysql2/promise');
 
 const app = express();
-const port = 3000;
+const port = 8090;
 
 // Configuración de la conexión a la base de datos
-const pool = new Pool({
-  user: 'user',
+// const pool = new Pool({
+//   user: 'user',
+//   host: 'localhost',
+//   database: 'sakiladb',
+//   password: '123456',
+//   port: 3306,
+// });
+const pool = mysql.createPool({
   host: 'localhost',
-  database: 'sakila',
+  user: 'user',
+  database: 'sakiladb',
   password: '123456',
-  port: 5432,
+  port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
-
 // Middleware para permitir JSON en las solicitudes
 app.use(express.json());
 
 // Obtener todos los actores
 app.get('/actors', async (req, res) => {
   try {
-    const { rows } = await pool.query('SELECT * FROM actor');
+    const [rows, fields] = await pool.execute('SELECT * FROM actor');
     res.json(rows);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener actores' });
