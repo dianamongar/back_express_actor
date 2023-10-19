@@ -20,13 +20,13 @@ const pool = mysql.createPool({
 app.use(express.json());
 
 // Obtener todos los actores
-app.get('/actors', async (req, res) => {
-  try {
-    const [rows, fields] = await pool.execute('SELECT * FROM actor');
-    res.json(rows);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener actores' });
-  }
+  app.get('/actors', async (req, res) => {
+    try {
+      const [rows, fields] = await pool.execute('SELECT * FROM actor');
+      res.json(rows);
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener actores' });
+    }
 });
 
 // Obtener actor por ID
