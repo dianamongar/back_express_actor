@@ -52,14 +52,20 @@ app.get('/actors/:id', async (req, res) => {
 
 // Crear un nuevo actor
 app.post('/actors', async (req, res) => {
-  const { name, age } = req.body;
+  const { first_name, last_name } = req.body; // Obtén los datos del actor del cuerpo de la solicitud
+  console.log(first_name + ' ' + last_name);
   try {
-    const { rows } = await pool.query('INSERT INTO actor (name, age) VALUES ($1, $2) RETURNING *', [name, age]);
-    res.status(201).json(rows[0]);
+    const result = await pool.execute(
+      'INSERT INTO actor (first_name, last_name) VALUES (?, ?)',
+      [first_name, last_name]
+    );
+    
+    res.json({ message: 'Actor creado exitosamente', actor_id: result[0].insertId });
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear un nuevo actor' });
+    res.status(500).json({ error: 'Error al crear el actor' });
   }
 });
+
 
 // Actualizar actor por ID
 app.put('/actors/:id', async (req, res) => {

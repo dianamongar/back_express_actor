@@ -3,7 +3,16 @@ GET http://localhost:8090/actors
 Accept: application/json
 
 ###  get actor by id ###
-GET http://localhost:8090/actors/1
+GET http://localhost:8090/actors/201
 Accept: application/json
 
-### get actor by name ###
+### post actor  ###
+POST http://localhost:8090/actors
+Content-Type: application/json
+
+{
+    "first_name": "juanita",
+    "last_name": "peres"
+}
+
+### Put actor ###
