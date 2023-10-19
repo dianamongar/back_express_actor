@@ -5,13 +5,7 @@ const app = express();
 const port = 8090;
 
 // Configuración de la conexión a la base de datos
-// const pool = new Pool({
-//   user: 'user',
-//   host: 'localhost',
-//   database: 'sakiladb',
-//   password: '123456',
-//   port: 3306,
-// });
+
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'user',
@@ -69,19 +63,27 @@ app.post('/actors', async (req, res) => {
 
 // Actualizar actor por ID
 app.put('/actors/:id', async (req, res) => {
-  const actorId = req.params.id;
-  const { name, age } = req.body;
+  const actorId = req.params.id; // Captura el ID del actor desde la URL
+  console.log(actorId);
+  const { first_name, last_name } = req.body; // Obtén los nuevos datos del actor del cuerpo de la solicitud
+  console.log(first_name + ' ' + last_name);
+
   try {
-    const { rows } = await pool.query('UPDATE actor SET name = $1, age = $2 WHERE id = $3 RETURNING *', [name, age, actorId]);
-    if (rows.length === 0) {
+    const result = await pool.execute(
+      'UPDATE actor SET first_name = ?, last_name = ? WHERE actor_id = ?',
+      [first_name, last_name, actorId]
+    );
+
+    if (result[0].affectedRows === 0) {
       res.status(404).json({ error: 'Actor no encontrado' });
     } else {
-      res.json(rows[0]);
+      res.json({ message: 'Actor actualizado exitosamente' });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar actor por ID' });
+    res.status(500).json({ error: 'Error al actualizar el actor' });
   }
 });
+
 
 // Eliminar actor por ID
 app.delete('/actors/:id', async (req, res) => {
