@@ -39,7 +39,7 @@ app.get('/actors', async (req, res) => {
 app.get('/actors/:id', async (req, res) => {
   const actorId = req.params.id;
   try {
-    const { rows } = await pool.query('SELECT * FROM actor WHERE id = $1', [actorId]);
+    const [rows, fields] = await pool.execute('SELECT * FROM actor WHERE actor_id = ?', [actorId]);
     if (rows.length === 0) {
       res.status(404).json({ error: 'Actor no encontrado' });
     } else {

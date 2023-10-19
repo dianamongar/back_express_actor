@@ -1,0 +1,9 @@
+### get all actors ###
+GET http://localhost:8090/actors
+Accept: application/json
+
+###  get actor by id ###
+GET http://localhost:8090/actors/1
+Accept: application/json
+
+### get actor by name ###
