@@ -12,7 +12,7 @@ Esta API proporciona acceso a una lista de actores en la base de datos. Puedes r
 
 ## Recursos
 
-### Actor
+### Tabla "Actor" de Sakila
 Un actor tiene las siguientes propiedades:
 - `actor_id` (entero): El ID único del actor.
 - `first_name` (cadena): El nombre del actor.
@@ -21,46 +21,41 @@ Un actor tiene las siguientes propiedades:
 
 ## Ejemplos
 
-### Obtener todos los actores
+### Obtener actores
 - **Descripción:** Obtiene la lista de todos los actores en la base de datos.
 - **Método:** GET
 - **URL:** `/actors`
+- **URL para paginación:** `/actors?page=N&pageSize=N`
 - **Respuesta exitosa:** Código de estado 200 OK
-- **Respuesta exitosa (ejemplo):**
-- **Parámetros de la Solicitud**
+- **Parámetros de la Solicitud con paginación**
   - `page` (Opcional): Número de página actual (por defecto: 1).
   - `pageSize` (Opcional): Tamaño de página (por defecto: 10).
 
-
-Ejemplo con parámetros para paginación:
+Ejemplo de respuesta con parámetros para paginación:
 ```
-GET http://localhost:8090/actors?page=2&pageSize=10
+GET http://localhost:8090/actors?page=6&pageSize=2
 Accept: application/json
 ```
-Ejemplo de respuesta:
-
   ```json
   [
     {
-      "actor_id": 1,
+      "actor_id": 11,
       "first_name": "Nombre1",
       "last_name": "Apellido1",
       "last_update": "2023-10-19 11:00:00"
     },
     {
-      "actor_id": 2,
+      "actor_id": 12,
       "first_name": "Nombre2",
       "last_name": "Apellido2",
       "last_update": "2023-10-19 11:15:00"
     }
   ]
+  ```
 
 ## Crear Actor
 
 Este endpoint te permite crear un nuevo actor y almacenarlo en una base de datos MySQL.
-
-- **URL**
-  - `/actors`
 
 - **Método**
   - `POST`
@@ -82,13 +77,11 @@ Este endpoint te permite crear un nuevo actor y almacenarlo en una base de datos
   {
     "message": "Actor creado exitosamente",
   }
+  ```
 
   ## Actualizar Actor
 
 Este endpoint te permite actualizar la información de un actor existente en una base de datos MySQL.
-
-- **URL**
-  - `/actors/:id`
 
 - **Método**
   - `PUT`
@@ -120,13 +113,11 @@ Este endpoint te permite actualizar la información de un actor existente en una
       "last_update": "Fecha de Actualización"
     }
   }
+  ```
 
 ## Eliminar Actor
 
 Este endpoint te permite eliminar un actor existente en una base de datos MySQL.
-
-- **URL**
-  - `/actors/:id`
 
 - **Método**
   - `DELETE`
@@ -141,6 +132,7 @@ Este endpoint te permite eliminar un actor existente en una base de datos MySQL.
   {
     "message": "Actor eliminado exitosamente"
   }
+  ```
 
 - **Respuesta de Error**
   - **Importante**: Cuando un actor esta relacionado con otros elementos de la base no puede eliminarse.
@@ -151,5 +143,6 @@ Este endpoint te permite eliminar un actor existente en una base de datos MySQL.
   {
     "error": "Mensaje de Error"
   }
+  ```
 
 
