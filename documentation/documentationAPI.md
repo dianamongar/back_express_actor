@@ -132,7 +132,7 @@ Este endpoint te permite eliminar un actor existente en una base de datos MySQL.
   ```
 
 - **Respuesta de Error**
-  - **Importante**: Cuando un actor esta relacionado con otros elementos de la base no puede eliminarse.
+  - **Importante**: Cuando un actor esta relacionado con otros elementos de la base de datos no debería eliminarse.
   - Código de Estado: 404 (No Encontrado) o 500 (Error Interno del Servidor)
   - Tipo de Contenido: `application/json`
 
@@ -141,5 +141,10 @@ Este endpoint te permite eliminar un actor existente en una base de datos MySQL.
     "error": "Mensaje de Error"
   }
   ```
+
+  ### Notas:
+  - Para ver el código de los endpoints, diríjase al archivo `app.js`
+  - Se utilizó un contenedor en Docker para la creación y uso de la base de datos, para más detalles diríjase a `database/docker.md`
+
 
 
