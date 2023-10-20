@@ -18,16 +18,74 @@ const pool = mysql.createPool({
 });
 // Middleware para permitir JSON en las solicitudes
 app.use(express.json());
+//aqui empieza el experimento
 
-// Obtener todos los actores
-  app.get('/actors', async (req, res) => {
-    try {
+// Obtener todos los actores con o sin paginación
+app.get('/actors', async (req, res) => {
+  const page = parseInt(req.query.page) || 1; // Página actual (por defecto: 1)
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  const offset = (parseInt(req.query.page) - 1) * pageSize || 0;
+
+  if (isNaN(pageSize) || isNaN(offset)) {
+    return res.status(400).json({ error: 'Valores de paginación no válidos' });
+  }
+
+  console.log("page : " + page + " size : " + pageSize);
+  console.log("offset : " + offset);
+
+  console.log("--------------------")
+  console.log("page: " + page + " (" + typeof page + ") size: " + pageSize + " (" + typeof pageSize + ")");
+  console.log("offset: " + offset + " (" + typeof offset + ")");
+
+  try {
+    if (page === 1) {
+      console.log("estamos dentro del if")
       const [rows, fields] = await pool.execute('SELECT * FROM actor');
       res.json(rows);
-    } catch (error) {
-      res.status(500).json({ error: 'Error al obtener actores' });
+    } else {
+      console.log("estamos dentro del else con paginacion")
+      const [rowsx, fields] = await pool.execute('SELECT * FROM actor LIMIT ? OFFSET ? ', [parseInt(pageSize), parseInt(offset)]);
+      //const [rowsx, fields] = await pool.execute('SELECT * FROM actor LIMIT ${pageSize} OFFSET ${offset} ');
+      console.log(rowsx);
+      res.json(rowsx);
     }
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener actores | ' + error });
+  }
 });
+
+
+//aqui termina el experimento
+
+
+// Obtener todos los actores
+//   app.get('/actors', async (req, res) => {
+//     try {
+//       const [rows, fields] = await pool.execute('SELECT * FROM actor');
+//       res.json(rows);
+//     } catch (error) {
+//       res.status(500).json({ error: 'Error al obtener actores' });
+//     }
+// });
+
+// // Obtener todos los actores con paginación
+// app.get('/actors', async (req, res) => {
+//   const page = req.query.page || 1; // Página actual (por defecto: 1)
+//   const pageSize = parseInt(req.query.pageSize) || 10;
+//   const offset = (parseInt(req.query.page) - 1) * pageSize || 0;
+
+//   console.log("page : " + page + " size : " + pageSize);
+//   console.log("offset : " + offset);
+  
+
+//   try {
+//     const [rows, fields] = await pool.execute('SELECT * FROM actor LIMIT ? OFFSET ? ', [pageSize, offset]);
+//     res.json(rows);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Error al obtener actores | ' + error });
+//   }
+// });
+
 
 // Obtener actor por ID
 app.get('/actors/:id', async (req, res) => {

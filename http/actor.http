@@ -1,9 +1,13 @@
-### get all actors ###
+### get all actors   ###
 GET http://localhost:8090/actors
 Accept: application/json
 
+### GET actos por paginacion ###
+GET http://localhost:8090/actors?page=2&pageSize=10
+Accept: application/json
+
 ###  get actor by id ###
-GET http://localhost:8090/actors/202
+GET http://localhost:8090/actors/20
 Accept: application/json
 
 ### post actor  ###
