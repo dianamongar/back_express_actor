@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### Delete actor ###
-DELETE http://localhost:8090/actors/1
+DELETE http://localhost:8090/actors/207
 Accept: application/json
 
 ### fin ###
