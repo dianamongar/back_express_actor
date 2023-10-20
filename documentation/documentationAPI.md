@@ -19,12 +19,9 @@ Un actor tiene las siguientes propiedades:
 - `last_name` (cadena): El apellido del actor.
 - `last_update` (marca de tiempo): La fecha y hora de la última actualización.
 
-## Ejemplos
-
-### Obtener actores
+## Obtener actores
 - **Descripción:** Obtiene la lista de todos los actores en la base de datos.
-- **Método:** GET
-- **URL:** `/actors`
+- **Método y Url:** `GET http://localhost:8090/actors`
 - **URL para paginación:** `/actors?page=N&pageSize=N`
 - **Respuesta exitosa:** Código de estado 200 OK
 - **Parámetros de la Solicitud con paginación**
@@ -57,8 +54,8 @@ Accept: application/json
 
 Este endpoint te permite crear un nuevo actor y almacenarlo en una base de datos MySQL.
 
-- **Método**
-  - `POST`
+- **Método y Url**
+  - `POST http://localhost:8090/actors`
 
 - **Parámetros de la Solicitud**
   - Tipo de Contenido: `application/json`
@@ -83,8 +80,8 @@ Este endpoint te permite crear un nuevo actor y almacenarlo en una base de datos
 
 Este endpoint te permite actualizar la información de un actor existente en una base de datos MySQL.
 
-- **Método**
-  - `PUT`
+- **Método y Url**
+  - `PUT http://localhost:8090/actors/id`
 
 - **Parámetros de la Solicitud**
   - Tipo de Contenido: `application/json`
@@ -119,8 +116,8 @@ Este endpoint te permite actualizar la información de un actor existente en una
 
 Este endpoint te permite eliminar un actor existente en una base de datos MySQL.
 
-- **Método**
-  - `DELETE`
+- **Método y Url**
+  - `DELETE http://localhost:8090/actors/207`
 
 - **Parámetros de la Solicitud**
   - Parámetro de Ruta:
